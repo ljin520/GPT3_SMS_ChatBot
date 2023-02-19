@@ -14,7 +14,7 @@ auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
 
 @app.route('/mybot', methods=['POST'])
-def jabe():
+def mybot():
     incoming_msg = request.form['Body']
     sender_id = request.form['From']
     chat_log = session.get('chat_log')
