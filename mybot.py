@@ -7,7 +7,6 @@ import openai
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# openai.api_key = "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"
 completion = openai.Completion()
 
 start_sequence = "\nChatBot:"
