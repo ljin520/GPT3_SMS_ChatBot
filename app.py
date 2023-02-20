@@ -48,10 +48,10 @@ def receiveMessage():
             resp.message(result['response'])
             
             # send_message(sender_id, result['response'])
-            return str(resp)
+            return Response(str(resp), mimetype="application/xml")
     except:
         pass
-        return ""
+        return None
 
 
 
