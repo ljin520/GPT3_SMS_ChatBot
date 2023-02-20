@@ -1,15 +1,8 @@
 import os
 
-
 from twilio.rest import Client
 from dotenv import load_dotenv
 load_dotenv()
-
-
-account_sid = os.getenv('TWILIO_ACCOUNT_SID')
-auth_token = os.getenv('TWILIO_AUTH_TOKEN')
-client = Client(account_sid, auth_token)
-
 
 def send_message(to: str, message: str) -> None:
     '''
@@ -19,9 +12,11 @@ def send_message(to: str, message: str) -> None:
         - message(str): text message to send
     Returns:
         - None
-    '''
-
-    _ = client.messages.create(
+        '''
+    account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+    auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+    client = Client(account_sid, auth_token)
+    client.messages.create(
         body=message,
         from_=os.getenv('FROM'),
         to=to
