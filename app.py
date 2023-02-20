@@ -35,30 +35,15 @@ def home():
 
 @app.route('/bot', methods=['GET','POST'])
 def receiveMessage():
-    try:
         message = request.values.get('Body').lower()
-        # sender_id = request.values.get('From')
         
         # Get response from Openai
         # result = text_complition(message)
         result =  message + ": My information is coming"
-        
         resp = MessagingResponse()
         resp.message(result)
-        
-        account_sid = os.getenv('TWILIO_ACCOUNT_SID')
-        auth_token = os.getenv('TWILIO_AUTH_TOKEN')
-        client = Client(account_sid, auth_token)    
-            # send_message(sender_id, result['response'])
-        message = client.messages.create(
-            body='result',
-            from_=os.getenv('FROM'),
-            to='+9293796266'
-        )
         return Response(str(resp), mimetype="application/xml")
-    except:
-        pass
-        return Response(str("101"), mimetype="application/xml")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
