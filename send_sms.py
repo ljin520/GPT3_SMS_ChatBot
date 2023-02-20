@@ -12,9 +12,6 @@ message = client.messages \
     .create(
         body="What goes best with a cup of coffee? Another cup. \n \nThanks for being a loyal customer, we want to show you some love back \n \nShop our new buy 1 get 1 free promo online.",
         from_=os.getenv('FROM'),
-        # photo needs to be publically avaiable -- upload to flickr 
-        media_url=['https://live.staticflickr.com/65535/51898195883_13c197808a_b.jpg'],
-        # replace with your own number 
         to='+9293796266'
     )
 
