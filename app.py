@@ -42,7 +42,7 @@ def receiveMessage():
         
         
         resp = MessagingResponse()
-        resp.message(result['response'])
+        resp.message(result)
             
             # send_message(sender_id, result['response'])
         return Response(str(resp), mimetype="application/xml")
