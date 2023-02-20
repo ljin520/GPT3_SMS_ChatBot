@@ -34,5 +34,5 @@ def text_complition(prompt: str) -> dict:
     except:
         return {
             'status': 0,
-            'response': ''
+            'response': 'No response'
         }
