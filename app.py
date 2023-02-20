@@ -35,6 +35,8 @@ def receiveMessage():
         # Extract incomng parameters from Twilio
         message = request.values.get('Body').lower()
         sender_id = request.values.get('From')
+        print(message)
+        print(sender_id)
         
         # Get response from Openai
         result = text_complition(message)
