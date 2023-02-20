@@ -34,7 +34,7 @@ def home():
 def receiveMessage():
     try:
         message = request.values.get('Body').lower()
-        sender_id = request.values.get('From')
+        # sender_id = request.values.get('From')
         
         # Get response from Openai
         result = text_complition(message)
