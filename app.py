@@ -37,7 +37,12 @@ def receiveMessage():
         # sender_id = request.values.get('From')
         
         # Get response from Openai
-        result = text_complition(message)
+        # result = text_complition(message)
+        result = {
+            'status': 1,
+            'response': "My information is coming"
+        }
+        
         if result['status'] == 1:
             resp = MessagingResponse()
             resp.message(result['response'])
