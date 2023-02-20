@@ -20,7 +20,8 @@ def sms_reply():
     elif body == 'no':
         resp.message("We are sorry to here that.")
     else:
-        resp.message("Please respond to Drip2Duong with yes or no. If you wish to unsubscribe text stop")
+        resp.message(body)
+        # resp.message("Please respond to Drip2Duong with yes or no. If you wish to unsubscribe text stop")
 
     return Response(str(resp), mimetype="application/xml")
 
@@ -32,18 +33,16 @@ def home():
 @app.route('/twilio/receiveMessage', methods=['POST'])
 def receiveMessage():
     try:
-        # Extract incomng parameters from Twilio
         message = request.values.get('Body').lower()
         sender_id = request.values.get('From')
-        print(message)
-        print(sender_id)
         
         # Get response from Openai
         result = text_complition(message)
         if result['status'] == 1:
             resp = MessagingResponse()
             resp.message(result['response'])
-            send_message(sender_id, result['response'])
+            
+            # send_message(sender_id, result['response'])
             return Response(str(resp), mimetype="application/xml")
     except:
         pass
