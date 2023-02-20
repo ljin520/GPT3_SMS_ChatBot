@@ -30,7 +30,7 @@ def home():
     return 'All is well...'
 
 
-@app.route('/twilio/receiveMessage', methods=['GET','POST'])
+@app.route('/bot', methods=['GET','POST'])
 def receiveMessage():
     try:
         message = request.values.get('Body').lower()
@@ -38,20 +38,17 @@ def receiveMessage():
         
         # Get response from Openai
         # result = text_complition(message)
-        result = {
-            'status': 1,
-            'response': "My information is coming"
-        }
+        result =  message + ": My information is coming"
         
-        if result['status'] == 1:
-            resp = MessagingResponse()
-            resp.message(result['response'])
+        
+        resp = MessagingResponse()
+        resp.message(result['response'])
             
             # send_message(sender_id, result['response'])
-            return Response(str(resp), mimetype="application/xml")
+        return Response(str(resp), mimetype="application/xml")
     except:
         pass
-        return None
+        return Response(str("101"), mimetype="application/xml")
 
 
 
