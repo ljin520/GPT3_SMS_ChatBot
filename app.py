@@ -15,7 +15,8 @@ app = Flask(__name__)
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
     body = request.values.get('Body').lower()
-
+    
+    result = text_complition(body)
     resp = MessagingResponse()
     
     if body == 'yes':
@@ -23,7 +24,7 @@ def sms_reply():
     elif body == 'no':
         resp.message("We are sorry to here that.")
     else:
-        resp.message(body)
+        resp.message(result['response'])
         # resp.message("Please respond to Drip2Duong with yes or no. If you wish to unsubscribe text stop")
 
     return Response(str(resp), mimetype="application/xml")
