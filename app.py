@@ -43,9 +43,10 @@ def receiveMessage():
             resp.message(result['response'])
             
             # send_message(sender_id, result['response'])
-            return Response(str(resp), mimetype="application/xml")
+            return str(resp)
     except:
         pass
+        return ""
 
 
 
