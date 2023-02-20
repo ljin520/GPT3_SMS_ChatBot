@@ -1,9 +1,12 @@
 import mimetypes
+import os
 from flask import Flask, Response, request
 from twilio.twiml.messaging_response import MessagingResponse
 from openai_api import text_complition
 from twilio_api import send_message
 from dotenv import load_dotenv
+from twilio.rest import Client
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -40,17 +43,22 @@ def receiveMessage():
         # result = text_complition(message)
         result =  message + ": My information is coming"
         
-        
         resp = MessagingResponse()
         resp.message(result)
-            
+        
+        account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+        auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+        client = Client(account_sid, auth_token)    
             # send_message(sender_id, result['response'])
+        message = client.messages.create(
+            body='result',
+            from_=os.getenv('FROM'),
+            to='+9293796266'
+        )
         return Response(str(resp), mimetype="application/xml")
     except:
         pass
         return Response(str("101"), mimetype="application/xml")
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
