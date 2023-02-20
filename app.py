@@ -1,36 +1,25 @@
-
-
-from openai_api import text_complition
-from twilio_api import send_message
-
-
-from flask import Flask, request
-from dotenv import load_dotenv
-load_dotenv()
+import mimetypes
+from flask import Flask, Response, request
+from twilio.twiml.messaging_response import MessagingResponse
 
 
 app = Flask(__name__)
 
 
-@app.route('/')
-def home():
-    return 'All is well...'
+@app.route("/sms", methods=['GET', 'POST'])
+def sms_reply():
+    body = request.values.get('Body').lower()
 
+    resp = MessagingResponse()
+    
+    if body == 'yes':
+        resp.message("We are glad you enjoyed Drip2Duong Coffee!")
+    elif body == 'no':
+        resp.message("We are sorry to here that.")
+    else:
+        resp.message("Please respond to Drip2Duong with yes or no. If you wish to unsubscribe text stop")
 
-@app.route('/twilio/receiveMessage', methods=['POST'])
-def receiveMessage():
-    try:
-        # Extract incomng parameters from Twilio
-        message = request.form['Body']
-        sender_id = request.form['From']
+    return Response(str(resp), mimetype="application/xml")
 
-        # Get response from Openai
-        result = text_complition(message)
-        if result['status'] == 1:
-            send_message(sender_id, result['response'])
-    except:
-        pass
-    return 'OK', 200
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
