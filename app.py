@@ -1,8 +1,8 @@
-from flask import Flask, request, session
-from twilio.twiml.messaging_response import MessagingResponse
-from mybot import ask, append_interaction_to_chat_log
-from twilio.rest import Client
-import os
+# from flask import Flask, request, session
+# from twilio.twiml.messaging_response import MessagingResponse
+# # from mybot import ask, append_interaction_to_chat_log
+# from twilio.rest import Client
+# import os
 
 
 # app = Flask(__name__)
