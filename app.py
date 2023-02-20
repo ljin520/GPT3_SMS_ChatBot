@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '89djhff9lhkd93'
 
 account_sid = os.getenv('TWILIO_ACCOUNT_SID')
 auth_token = os.getenv('TWILIO_AUTH_TOKEN')
-client = Client(account_sid, auth_token)
+
 
 @app.route('/')
 def home():
@@ -27,6 +27,7 @@ async def mybot():
         # session['chat_log'] = append_interaction_to_chat_log(incoming_msg, answer,
                                                       # chat_log)
         if answer['status'] == 1:
+            client = Client(account_sid, auth_token)
             client.messages.create(
                 from_=os.getenv('FROM'),
                 body=answer['response'],
