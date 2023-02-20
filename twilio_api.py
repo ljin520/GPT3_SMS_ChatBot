@@ -22,7 +22,7 @@ def send_message(to: str, message: str) -> None:
     '''
 
     _ = client.messages.create(
-        from_=os.getenv('FROM'),
         body=message,
+        from_=os.getenv('FROM'),
         to=to
     )
