@@ -30,7 +30,7 @@ def home():
     return 'All is well...'
 
 
-@app.route('/twilio/receiveMessage', methods=['POST'])
+@app.route('/twilio/receiveMessage', methods=['GET','POST'])
 def receiveMessage():
     try:
         message = request.values.get('Body').lower()
