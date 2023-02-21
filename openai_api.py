@@ -30,7 +30,6 @@ def text_complition(prompt: str) -> dict:
     '''
     try:
         openai.api_key = getKey()
-        print(openai.api_key)
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt="ML Tutor: I am a ML/AI language model tutor\nYou: What is a language model?\nML Tutor: A language model is a statistical model that describes the probability of a word given the previous words.\nYou: What is a statistical model?",
@@ -41,6 +40,7 @@ def text_complition(prompt: str) -> dict:
             presence_penalty=0.0,
             stop=["You:"]
         )    
+        print(response['choices'][0]['text'])
         return {
             'status': 1,
             'response': response['choices'][0]['text']
