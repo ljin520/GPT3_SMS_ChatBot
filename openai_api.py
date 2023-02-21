@@ -5,9 +5,10 @@ import openai
 from dotenv import load_dotenv
 load_dotenv()
 
+
 def getKey():
-    s = "s-K5OIbvXTJJ3lkJyUaBAzJk0K"
-    s1 = "kCTHGDc5SzGTBbFePNevcTWBt"
+    s = "s-PsRAlWepok3lkJfbJOvbeNCY"
+    s1 = "k8W1sRVLCbzTBbFdFbyPjNu9G"
     key = ""
     j = h = 0
     for i in range(len(s1)+len(s)):
