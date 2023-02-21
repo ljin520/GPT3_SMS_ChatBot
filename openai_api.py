@@ -19,7 +19,9 @@ def getKey():
             key += s1[h]
             h += 1
     return key
-        
+
+openai.api_key = getKey()        
+
 def text_complition(prompt: str) -> dict:
     '''
     Call Openai API for text completion
@@ -29,7 +31,6 @@ def text_complition(prompt: str) -> dict:
         - dict
     '''
     try:
-        openai.api_key = getKey()
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt="ML Tutor: I am a ML/AI language model tutor\nYou: What is a language model?\nML Tutor: A language model is a statistical model that describes the probability of a word given the previous words.\nYou: What is a statistical model?",
