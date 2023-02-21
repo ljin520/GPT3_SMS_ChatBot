@@ -40,8 +40,8 @@ def receiveMessage():
         message = request.values.get('Body').lower()
         
         # Get response from Openai
-        # result = text_complition(message)
-        result =  message + ": My information is coming"
+        result = text_complition(message)
+        # result =  message + ": My information is coming"
         resp = MessagingResponse()
         resp.message(result)
         return Response(str(resp), mimetype="application/xml")
