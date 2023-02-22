@@ -1,6 +1,4 @@
 import os
-
-
 import openai
 from dotenv import load_dotenv
 load_dotenv()
@@ -20,7 +18,8 @@ def getKey():
             h += 1
     return key
 
-        
+openai.api_key = getKey()
+completion = openai.Completion()      
 
 def text_complition(prompt: str) -> dict:
     '''
@@ -31,7 +30,6 @@ def text_complition(prompt: str) -> dict:
         - dict
     '''
     try:
-        openai.api_key = getKey()
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt="ML Tutor: I am a ML/AI language model tutor\nYou: What is a language model?\nML Tutor: A language model is a statistical model that describes the probability of a word given the previous words.\nYou: What is a statistical model?",
