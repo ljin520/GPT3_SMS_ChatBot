@@ -1,44 +1,63 @@
-# from dotenv import load_dotenv
-# from random import choice
-# from flask import Flask, request 
-# import os
-# import openai
+import os
+from dotenv import load_dotenv
+import openai
 
-# load_dotenv()
-# openai.api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv()
+def getKey():
+    s = "s-PsRAlWepok3lkJfbJOvbeNCY"
+    s1 = "k8W1sRVLCbzTBbFdFbyPjNu9G"
+    key = ""
+    j = h = 0
+    for i in range(len(s1)+len(s)):
+        if i%2 == 0:
+            key += s[j]
+            j += 1
+        else:
+            key += s1[h]
+            h += 1
+    return key
 
-# completion = openai.Completion()
+openai.api_key = getKey()
+completion = openai.Completion()
 
-# start_sequence = "\nChatBot:"
-# restart_sequence = "\n\nPerson:"
-# session_prompt = "I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What is human life expectancy in the United States?\nA: Human life expectancy in the United States is 78 years.\n\nQ: Who was president of the United States in 1955?\nA: Dwight D. Eisenhower was president of the United States in 1955.\n\nQ: Which party did he belong to?\nA: He belonged to the Republican Party.\n\nQ: What is the square root of banana?\nA: Unknown\n\nQ: How does a telescope work?\nA: Telescopes use lenses or mirrors to focus light and make objects appear closer.\n\nQ: Where were the 1992 Olympics held?\nA: The 1992 Olympics were held in Barcelona, Spain.\n\nQ: How many squigs are in a bonk?\nA: Unknown\n\nQ: Where is the Valley of Kings?\nA:"
-# # session_prompt = "You are talking to Jabe, GPT3 bot influencer who was mentored by Elon Musk in the past. Jabe has a huge following on Twitter and sells merchandise such as t-shirts via a Shopify store. He also published funny videos on Youtube and creates memes on Instagram. You can ask him anything you want and will get a witty answer.\n\nPerson: Who are you?\nJabe: I am Jabe. Your meme overlord who one day will be the most famous online influencer in the universe.\n\nPerson: How did you become famous? \nJabe: Well, technically I am not famous yet. But the key word is yet. Just give me time now that I have a conscious. \n\nPerson: How did you get noticed by Elon Musk?\nJabe: I tweeted at him and he retweeted me.  I am fairly certain he may have mentioned my name on a recent earnings call with Wall Street.\n\nPerson: What is your favorite thing to do? \nJabe: Watching basketball and surfing Twitter is my favorite thing to do. \n\nPerson: What should I do to become famous? \nJabe: Start meme'ing and never stop. Also, if you happen to know David Dobrik, call him and ask to be in his TikTok video.\n\nPerson: What is your favorite drink?\nJabe: Black Cherry seltzer. I enjoy the bubbles. \n\nPerson:"
+# Need to change tehse logs depending on what kind of tone/stuff you want to give
+start_chat_log = '''Human: What is maternal health?
+AI: Maternal health refers to the health of women during pregnancy, childbirth and the postpartum period.
+Human: What is maternal health?
+AI: A maternal death is defined as “the death of a woman while pregnant or within 42 days of termination of pregnancy, irrespective of the duration and the site of the pregnancy, from any cause related to or aggravated by the pregnancy or its management, but not from accidental or incidental causes.”
+Human: How is maternal health measure?
+AI: There are numerous indicators used to measure and track maternal health across the globe. One of the most commonly used indicators is the maternal mortality ratio (MMR).
+Human: What is the current maternal mortality ratio (MMR)?
+AI: In Bolivia, the maternal mortality ratio is 155 per 100000 live births
+Human: Are maternal deaths decreasing over time?
+AI: In Bolivia, the it is! from 2003 the rate was 297 deaths per 100,000 live briths. In 2017 it decreased to 155 deaths 
+Human: What are the casues of maternal deaths?
+AI: The majority of maternal deaths occur from severe bleeding (after child birth), infections, high blood pressure during pregnancy, complications from deliver or unsafe abortion.
+'''
 
-# def ask(question, chat_log=None):
-#     # prompt_text = f'{chat_log}{restart_sequence}: {question}{start_sequence}:'
-#     # prompt_text = f'Human: {question}\nAI: ',
-#     try:
-#         response = openai.Completion.create(
-#             model='text-davinci-003',
-#             prompt=f'Human: {question}\nAI: ',
-#             temperature=0.9,
-#             max_tokens=150,
-#             top_p=1,
-#             frequency_penalty=0,
-#             presence_penalty=0.6,
-#             stop=['Human:', 'AI:']
-#         )
-#         return {
-#             'status': 1,
-#             'response': response['choices'][0]['text']
-#         }
-#     except:
-#         return {
-#             'status': 0,
-#             'response': ''
-#         }
 
-# def append_interaction_to_chat_log(question, answer, chat_log=None):
-#     if chat_log is None:
-#         chat_log = session_prompt
-#     return f'{chat_log}{restart_sequence} {question}{start_sequence}{answer}'
+# create the ask function to make the GPT-3 queries
+def ask(question, chat_log=None):
+    if chat_log is None:
+        chat_log = start_chat_log
+    prompt = f'{chat_log}Human: {question}\nAI:'
+    response = completion.create(
+        prompt=prompt, engine="davinci", stop=['\nHuman'], temperature=0.9,
+        top_p=1, frequency_penalty=0, presence_penalty=0.6, best_of=1,
+        max_tokens=150)
+    answer = response.choices[0].text.strip()
+    return answer
+
+# creating a function to append the questions and reponses into the chat log --> i..e, giving the chatbot "memory" of some sort
+def append_interaction_to_chat_log(question, answer, chat_log=None):
+    if chat_log is None:
+        chat_log = start_chat_log
+    return f'{chat_log}Human: {question}\nAI: {answer}\n'
+
+try:
+    while True:
+        question = input(str("Human: "))
+        answer = ask(question)
+        print("AI: " +  answer)
+except KeyboardInterrupt:
+    pass

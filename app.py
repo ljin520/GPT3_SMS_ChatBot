@@ -1,18 +1,33 @@
 import mimetypes
 import os
-from flask import Flask, Response, request
+from flask import Flask, Response, request,session
 from twilio.twiml.messaging_response import MessagingResponse
 from openai_api import text_complition
 from twilio_api import send_message
 from dotenv import load_dotenv
 from twilio.rest import Client
+from mybot import ask, append_interaction_to_chat_log
 
 load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'top-secret!'
+
+@app.route('/sms', methods=['POST'])
+def bot():
+    incoming_msg = request.values['Body']
+    chat_log = session.get('chat_log')
+
+    answer = ask(incoming_msg, chat_log)
+    session['chat_log'] = append_interaction_to_chat_log(incoming_msg, answer,
+                                                         chat_log)
+
+    r = MessagingResponse()
+    r.message(answer)
+    return str(r)
 
 
-@app.route("/sms", methods=['GET', 'POST'])
+@app.route("/sms1", methods=['GET', 'POST'])
 def sms_reply():
     body = request.values.get('Body').lower()
     
